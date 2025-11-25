@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>社交媒体监测工具</title>
+    <!-- 引入 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入 Inter 字体 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- 引入 Lucide 图标库 -->
+    <script src="https://unpkg.com/lucide-cdn"></script>
+    <style>
+        /* 使用 Inter 字体作为默认字体 */
+        body {
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+        }
+        
+        /* 隐藏滚动条但保留滚动功能 */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+        
+        /* 强制图片占位符为圆形 */
+        .avatar {
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-900">
+    <div class="flex h-screen overflow-hidden">
+        
+        <!-- 1. 左侧侧边栏 (项目管理和辅助信息) -->
+        <aside class="w-64 flex-shrink-0 bg-white border-r border-gray-200 flex flex-col">
+            <div class="p-4">
+                <h2 class="text-sm font-bold text-gray-900">项目管理</h2>
+            </div>
+            
+            <!-- 导航列表 -->
+            <nav class="flex-1 px-4 space-y-1 overflow-y-auto hide-scrollbar">
+                <ul class="space-y-1">
+                    <!-- 激活状态的菜单项 -->
+                    <li>
+                        <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-purple-600 text-white font-medium text-sm">
+                            <span class="w-7 h-7 rounded-full flex items-center justify-center bg-white bg-opacity-20 text-xs font-bold">S</span>
+                            <span class="flex-1">智慧监测</span>
+                            <span class="text-xs font-light">7 消息</span>
+                        </a>
+                    </li>
+                    <!-- 其他菜单项 -->
+                    <li>
+                        <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-100 font-medium text-sm">
+                            <span class="w-7 h-7 rounded-full flex items-center justify-center bg-green-500 text-white text-xs font-bold">S</span>
+                            <span class="flex-1">Symbiotic</span>
+                            <span class="text-xs text-gray-500">18 消息</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-100 font-medium text-sm">
+                            <span class="w-7 h-7 rounded-full flex items-center justify-center bg-pink-500 text-white text-xs font-bold">T</span>
+                            <span class="flex-1">Teneo Proteo</span>
+                            <span class="text-xs text-gray-500">23 消息</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-100 font-medium text-sm">
+                            <span class="w-7 h-7 rounded-full flex items-center justify-center bg-orange-500 text-white text-xs font-bold">ST</span>
+                            <span class="flex-1">稳定币 (Sta...)</span>
+                            <span class="text-xs text-gray-500">15 消息</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-100 font-medium text-sm">
+                            <span class="w-7 h-7 rounded-full flex items-center justify-center bg-gray-400 text-white text-xs font-bold">H</span>
+                            <span class="flex-1">消息大厅</span>
+                            <span class="text-xs text-gray-500">103 消息</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <!-- 项目辅助信息 (简化，移除了教程和上线时间) -->
+            <div class="flex-shrink-0 mt-4 border-t border-gray-200 p-4">
+                <div class="space-y-4"> 
+                    <!-- Header -->
+                    <div class="flex justify-between items-center pb-2">
+                        <h3 class="font-bold text-base text-gray-900">项目辅助信息</h3>
+                        <div class="flex items-center gap-1">
+                            <button class="p-1 text-gray-500 hover:text-gray-800 hover:bg-gray-100 rounded-md">
+                                <i data-lucide="bell" class="w-4 h-4"></i>
+                            </button>
+                            <button class="p-1 text-gray-500 hover:text-gray-800 hover:bg-gray-100 rounded-md">
+                                <i data-lucide="more-horizontal" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Content (只保留描述) -->
+                    <div class="text-sm space-y-3">
+                        <p class="text-xs text-gray-500">这是放置不适合主信息流的辅助信息的区域。</p>
+                    </div>
+                </div>
+            </div>
+            
+        </aside>
+
+        <!-- 2. 右侧主内容区 -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            
+            <!-- 顶部全局 Header -->
+            <header class="bg-white border-b border-gray-200 flex-shrink-0">
+                <div class="px-6 h-16 flex items-center justify-between">
+                    <!-- 左侧面包屑 -->
+                    <div class="flex items-center gap-3 text-sm">
+                        <span class="font-semibold text-gray-800">社交媒体监测工具界面</span>
+                        <i data-lucide="chevron-left" class="w-4 h-4 text-gray-400 cursor-pointer"></i>
+                        <i data-lucide="chevron-right" class="w-4 h-4 text-gray-400 cursor-pointer"></i>
+                        <i data-lucide="rotate-cw" class="w-4 h-4 text-gray-500 cursor-pointer"></i>
+                        <span class="text-gray-500 text-xs"> (消息流高度调整) </span>
+                    </div>
+                    
+                    <!-- 右侧控件 -->
+                    <div class="flex items-center gap-2">
+                        <!-- 视图切换图标 -->
+                        <button class="p-2 rounded-md hover:bg-gray-100 text-gray-600">
+                            <i data-lucide="layout-grid" class="w-5 h-5"></i>
+                        </button>
+                        <button class="p-2 rounded-md hover:bg-gray-100 text-gray-600">
+                            <i data-lucide="list" class="w-5 h-5"></i>
+                        </button>
+                        <button class="p-2 rounded-md hover:bg-gray-100 text-gray-600">
+                            <i data-lucide="upload" class="w-5 h-5"></i>
+                        </button>
+                        
+                        <div class="w-px h-6 bg-gray-200 mx-1"></div>
+
+                        <!-- 按钮组 -->
+                        <button class="text-sm font-medium px-4 py-2 rounded-md border border-gray-300 bg-white hover:bg-gray-50 text-gray-700">代码</button>
+                        <button class="text-sm font-medium px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700">预览</button>
+                        <button class="text-sm font-medium px-4 py-2 rounded-md border border-gray-300 bg-white hover:bg-gray-50 flex items-center gap-1.5 text-gray-700">
+                            <i data-lucide="share-2" class="w-4 h-4"></i>
+                            分享
+                        </button>
+                        <button class="text-sm font-medium px-3 py-2 rounded-md border border-gray-300 bg-white hover:bg-gray-50 flex items-center gap-1.5 text-gray-700">
+                            隐藏
+                            <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- 3. 可滚动的主内容 - 调整为单栏全宽布局 -->
+            <main class="flex-1 overflow-y-auto p-6 bg-gray-50 hide-scrollbar">
+                
+                <!-- 容器：现在主内容区为单列全宽布局 -->
+                <div class="space-y-6">
+
+                    <!-- ========== 主内容区 - 智慧监测 + 最新融资 (调整了结构) ========== -->
+                    <div class="space-y-6">
+                        
+                        <!-- 组合卡片: 智慧监测 (描述) + 最新融资 -->
+                        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200 space-y-6">
+                            
+                            <!-- 智慧监测 (头部和描述部分) -->
+                            <div class="pb-4 border-b border-gray-100 space-y-3">
+                                
+                                <!-- 标题和控制项 (新的位置) -->
+                                <div class="flex justify-between items-start">
+                                    <h3 class="font-bold text-xl text-gray-900">智慧监测</h3>
+                                    
+                                    <!-- 链接和刷新按钮 (移动到标题右侧) -->
+                                    <div class="flex items-center gap-3 flex-shrink-0 text-sm">
+                                        <button class="text-sm font-medium text-blue-600 hover:underline">刷新数据 (模拟)</button>
+                                        <div class="w-px h-5 bg-gray-200"></div>
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-gray-500 font-medium">官网链接:</span>
+                                            <a href="#" target="_blank" class="text-blue-600 hover:text-blue-700 font-medium">Twitter/X</a>
+                                            <a href="#" target="_blank" class="text-blue-600 hover:text-blue-700 font-medium">Discord</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- 评级 -->
+                                <div class="flex items-center gap-3">
+                                    <span class="text-gray-500 text-sm">评级:</span>
+                                    <span class="text-green-600 font-semibold px-2 py-0.5 bg-green-50 rounded text-xs">A+ 优质</span>
+                                </div>
+                                
+                                <!-- 描述 -->
+                                <p class="text-sm text-gray-800 leading-relaxed pt-2">
+                                    AI驱动的Web3基础设施和数据分析平台，专注于去中心化智能化，旨在利用人工智能技术解决区块链数据复杂性问题。
+                                </p>
+                            </div>
+
+                            <!-- 最新融资 (单个信息块) -->
+                            <div class="mt-4">
+                                <div class="flex justify-between items-center mb-4 pt-4">
+                                    <h4 class="font-bold text-xl text-gray-900 flex items-center gap-2">
+                                        <i data-lucide="wallet" class="w-6 h-6 text-gray-500"></i>
+                                        最新融资
+                                    </h4>
+                                    <div class="flex gap-2">
+                                        <button class="text-sm font-medium px-3 py-1.5 rounded-md bg-gray-100 text-gray-700 border border-gray-200">投资方</button>
+                                        <button class="text-sm font-medium px-3 py-1.5 rounded-md text-gray-700 border border-gray-200 hover:bg-gray-50">详情</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="space-y-4">
+                                    <!-- Header/Labels -->
+                                    <div class="grid grid-cols-5 text-xs text-gray-700 uppercase font-medium border-b border-gray-200 pb-2">
+                                        <div class="col-span-1">轮次</div>
+                                        <div class="col-span-1">金额</div>
+                                        <div class="col-span-1">估值</div>
+                                        <div class="col-span-1">时间</div>
+                                        <div class="col-span-1">来源</div>
+                                    </div>
+                                    
+                                    <!-- Single Financing Entry (最新一轮数据) -->
+                                    <div class="grid grid-cols-5 text-sm text-gray-900 pt-1">
+                                        <div class="col-span-1 font-medium">A1轮</div>
+                                        <div class="col-span-1 font-medium">数百万美元</div>
+                                        <div class="col-span-1 text-gray-400">--</div>
+                                        <div class="col-span-1 font-medium">2024-04-08</div>
+                                        <div class="col-span-1 text-gray-400">--</div>
+                                    </div>
+
+                                    <!-- Investor Details -->
+                                    <div class="pt-2 text-sm text-gray-700">
+                                        <span class="font-medium">投资方 (3家):</span> 
+                                        Polychain, Dragonfly Capital, Paradigm
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <!-- /最新融资 -->
+                            
+                            <!-- 教程和上线时间 (更新了教程的具体名称) -->
+                            <div class="flex justify-between items-center pt-4 mt-4 border-t border-gray-100 text-sm">
+                                
+                                <!-- Tutorials -->
+                                <div class="flex items-center gap-1.5 text-gray-700">
+                                    <i data-lucide="code" class="w-4 h-4 text-gray-500"></i>
+                                    <span>教程:</span>
+                                    <!-- 推特教程1 -->
+                                    <a href="#" class="font-medium text-blue-600 hover:underline">推特教程1</a>
+                                    <span class="text-gray-400">,</span>
+                                    <!-- 节点教程 -->
+                                    <a href="#" class="font-medium text-blue-600 hover:underline">节点教程</a>
+                                    <span class="text-gray-400">,</span>
+                                    <!-- 油管视频教程 -->
+                                    <a href="#" class="font-medium text-blue-600 hover:underline">油管视频教程</a>
+                                </div>
+                                
+                                <!-- Launch Time -->
+                                <div class="flex items-center gap-2 text-gray-700">
+                                    <i data-lucide="calendar" class="w-4 h-4 text-gray-500"></i>
+                                    <span>项目上线时间: <span class="text-blue-600 font-medium">2025-06-01 (预估)</span></span>
+                                </div>
+                            </div>
+                            <!-- /教程和上线时间 -->
+
+                        </div>
+                        <!-- /组合卡片: 智慧监测 + 最新融资 -->
+                    </div>
+                    <!-- ========== /主内容区 - 智慧监测 + 最新融资 ========== -->
+
+
+                    <!-- ========== 卡片: 实时消息流 (推特/X) ========== -->
+                    <div>
+                        <h3 class="font-bold text-xl text-gray-900 mb-4">实时消息流 (推特/X)</h3>
+                        
+                        <div class="space-y-4">
+                            <!-- 消息卡片 1 - 消极 -->
+                            <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-200">
+                                <div class="flex items-start gap-3">
+                                    <!-- Avatar 1 - 使用 Placeholder -->
+                                    <img 
+                                        src="https://placehold.co/40x40/7c3aed/ffffff?text=U1" 
+                                        alt="User Avatar 1" 
+                                        class="w-10 h-10 rounded-full flex-shrink-0 avatar"
+                                        onerror="this.onerror=null;this.src='https://placehold.co/40x40/7c3aed/ffffff?text=U1'"
+                                    >
+                                    
+                                    <!-- 内容块 -->
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex justify-between items-start mb-2">
+                                            <span class="font-semibold text-gray-900">Crypto_Skeptic</span>
+                                            <span class="text-sm text-gray-500 flex-shrink-0">4天前</span>
+                                        </div>
+                                        <!-- Text Content -->
+                                        <p class="text-sm text-gray-800 leading-relaxed mb-4">
+                                            The tokenomics of $OM look slightly inflationary in the short term. Need more clarity on long-term value capture. Still concerned about the vesting schedule.
+                                        </p>
+                                        
+                                        <!-- 统计 / Actions (无图标，纯数字) -->
+                                        <div class="flex items-center gap-6 text-sm text-gray-500 mb-4">
+                                            <span class="hover:text-blue-600 cursor-pointer">2.3K</span>
+                                            <span class="hover:text-green-600 cursor-pointer">105</span>
+                                            <span class="hover:text-red-600 cursor-pointer">12</span>
+                                            <span class="hover:text-gray-800 cursor-pointer">5</span>
+                                        </div>
+
+                                        <!-- 底部 / 情感分析 -->
+                                        <div class="flex justify-between items-center text-xs pt-2">
+                                            <span class="text-gray-500">情感: <span class="font-medium text-red-600">消极</span></span>
+                                            <a href="#" class="font-medium text-blue-600 hover:underline">翻译</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 消息卡片 2 - 积极 -->
+                            <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-200">
+                                <div class="flex items-start gap-3">
+                                    <!-- Avatar 2 - 使用 Placeholder -->
+                                    <img 
+                                        src="https://placehold.co/40x40/34d399/ffffff?text=U2" 
+                                        alt="User Avatar 2" 
+                                        class="w-10 h-10 rounded-full flex-shrink-0 avatar"
+                                        onerror="this.onerror=null;this.src='https://placehold.co/40x40/34d399/ffffff?text=U2'"
+                                    >
+                                    
+                                    <!-- 内容块 -->
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex justify-between items-start mb-2">
+                                            <span class="font-semibold text-gray-900">AI_Enthusiast</span>
+                                            <span class="text-sm text-gray-500 flex-shrink-0">4天前</span>
+                                        </div>
+                                        <!-- Text Content -->
+                                        <p class="text-sm text-gray-800 leading-relaxed mb-4">
+                                            Discussing the future of decentralized AI with a focus on data governance. The integration with existing Web3 infrastructure is truly innovative. OpenMinds seems to have a solid solution here.
+                                        </p>
+                                        
+                                        <!-- 统计 / Actions (无图标，纯数字) -->
+                                        <div class="flex items-center gap-6 text-sm text-gray-500 mb-4">
+                                            <span class="hover:text-blue-600 cursor-pointer">1.5K</span>
+                                            <span class="hover:text-green-600 cursor-pointer">88</span>
+                                            <span class="hover:text-red-600 cursor-pointer">35</span>
+                                            <span class="hover:text-gray-800 cursor-pointer">15</span>
+                                        </div>
+                                        
+                                        <!-- 底部 / 情感分析 -->
+                                        <div class="flex justify-between items-center text-xs pt-2">
+                                            <span class="text-gray-500">情感: <span class="font-medium text-green-600">积极</span></span>
+                                            <a href="#" class="font-medium text-blue-600 hover:underline">翻译</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 消息卡片 3 - 中立/信息发布 -->
+                            <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-200">
+                                <div class="flex items-start gap-3">
+                                    <!-- Avatar 3 - 使用 Placeholder -->
+                                    <img 
+                                        src="https://placehold.co/40x40/fcd34d/1f2937?text=U3" 
+                                        alt="User Avatar 3" 
+                                        class="w-10 h-10 rounded-full flex-shrink-0 avatar"
+                                        onerror="this.onerror=null;this.src='https://placehold.co/40x40/fcd34d/1f2937?text=U3'"
+                                    >
+                                    
+                                    <!-- 内容块 -->
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex justify-between items-start mb-2">
+                                            <span class="font-semibold text-gray-900">Project_News</span>
+                                            <span class="text-sm text-gray-500 flex-shrink-0">1天前</span>
+                                        </div>
+                                        <!-- Text Content -->
+                                        <p class="text-sm text-gray-800 leading-relaxed mb-4">
+                                            OpenMinds Core Network upgrade is scheduled for this weekend. This update will include performance improvements and a new data indexing module. Check our docs for details.
+                                        </p>
+                                        
+                                        <!-- 统计 / Actions (无图标，纯数字) -->
+                                        <div class="flex items-center gap-6 text-sm text-gray-500 mb-4">
+                                            <span class="hover:text-blue-600 cursor-pointer">800</span>
+                                            <span class="hover:text-green-600 cursor-pointer">250</span>
+                                            <span class="hover:text-red-600 cursor-pointer">0</span>
+                                            <span class="hover:text-gray-800 cursor-pointer">50</span>
+                                        </div>
+                                        
+                                        <!-- 底部 / 情感分析 -->
+                                        <div class="flex justify-between items-center text-xs pt-2">
+                                            <span class="text-gray-500">情感: <span class="font-medium text-gray-600">中立</span></span>
+                                            <a href="#" class="font-medium text-blue-600 hover:underline">翻译</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ========== /卡片: 实时消息流 (推特/X) ========== -->
+                    
+                </div>
+            </main>
+        </div>
+
+        <!-- 浮动操作按钮 (FAB) - 保持绿色 -->
+        <button class="absolute bottom-6 right-6 bg-green-500 p-4 rounded-full shadow-xl hover:bg-green-600 z-10 transition duration-150 ease-in-out">
+            <i data-lucide="plus" class="w-6 h-6 text-white"></i>
+        </button>
+    </div>
+
+    <!-- 激活 Lucide 图标 -->
+    <script>
+        window.onload = function() {
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            } else {
+                console.error("Lucide is not defined. Icon script might have failed to load.");
+            }
+        };
+    </script>
+</body>
+</html>
